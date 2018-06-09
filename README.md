@@ -191,6 +191,8 @@ content.email.hidden = false
 
 ## Работа с модулем
 
+Полный пример работы можно найти в репозитории https://github.com/romannep/kate-form-demo
+
 ### Установка
 
 ````
