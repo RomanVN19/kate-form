@@ -1,0 +1,21 @@
+{
+  "name": "kate-form",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "babel src --out-dir dist"
+  },
+  "author": "Roman Nep <neproman@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "react": "^16.3.1",
+    "react-redux": "^5.0.7"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.26.0",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-plugin-transform-react-jsx": "^6.24.1"
+  }
+}
