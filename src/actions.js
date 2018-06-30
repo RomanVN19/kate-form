@@ -1,6 +1,5 @@
 
 export const SET_DATA = '@@kate-form/SET_DATA';
-export const CONNECTORS = Symbol('connectors');
 
 const setData = (path, data) => ({ type: SET_DATA, path, data });
 

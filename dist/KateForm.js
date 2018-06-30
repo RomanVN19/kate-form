@@ -21,26 +21,27 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
 
-const getIn = exports.getIn = (obj, path) => {
-  const pathArray = Array.isArray(path) ? path : path.split('.');
+var getIn = exports.getIn = function getIn(obj, path) {
+  var pathArray = Array.isArray(path) ? path : path.split('.');
   if (pathArray[pathArray.length - 1] === '') pathArray.pop();
-  let currentData = obj;
-  for (let i = 0; i < pathArray.length && currentData; i += 1) {
+  var currentData = obj;
+  for (var i = 0; i < pathArray.length && currentData; i += 1) {
     currentData = currentData[pathArray[i]];
   }
   return currentData;
 };
 
-const KateForm = props => {
-  const {
-    data, connectors,
-    path, setData,
-    logRerender
-  } = props;
+var KateForm = function KateForm(props) {
+  var data = props.data,
+      connectors = props.connectors,
+      path = props.path,
+      setData = props.setData,
+      logRerender = props.logRerender;
+
   if (logRerender) console.log('render ', path, data); // eslint-disable-line no-console
 
   if (!data) {
-    console.error(`[kate-form] Error connecting element: data on path ${path} is null`);
+    console.error('[kate-form] Error connecting element: data on path ' + path + ' is null');
     return null;
   }
 
@@ -49,39 +50,51 @@ const KateForm = props => {
     return _react2.default.createElement(
       'div',
       null,
-      data.map((element, index) => _react2.default.createElement(ConnectedKateForm, {
-        key: element.id || index,
-        path: `${path}.${index}`
-      }))
+      data.map(function (element, index) {
+        return _react2.default.createElement(ConnectedKateForm, {
+          key: element.id || index,
+          path: path + '.' + index
+        });
+      })
     );
   }
   // render element
-  const { type } = data,
-        elementProps = _objectWithoutProperties(data, ['type']);
+
+  var type = data.type,
+      elementProps = _objectWithoutProperties(data, ['type']);
+
   if (!data.type || !connectors[data.type] || data.hidden) return null;
-  const ElementComponent = connectors[data.type];
+  var ElementComponent = connectors[data.type];
   return _react2.default.createElement(ElementComponent, _extends({
     setData: setData,
     path: path
   }, elementProps));
 };
 
-const KateFormWithContext = props => _react2.default.createElement(
-  _context.Consumer,
-  null,
-  context => _react2.default.createElement(KateForm, _extends({ connectors: context.connectors, logRerender: context.logRerender }, props))
-);
+var KateFormWithContext = function KateFormWithContext(props) {
+  return _react2.default.createElement(
+    _context.Consumer,
+    null,
+    function (context) {
+      return _react2.default.createElement(KateForm, _extends({ connectors: context.connectors, logRerender: context.logRerender }, props));
+    }
+  );
+};
 
-const mapStateToProps = (state, ownProps) => ({
-  data: getIn(state['kate-form'], ownProps.path)
-});
-
-const mapDispathToProps = (dispatch, ownProps) => {
-  const setData = (0, _actions.getSetData)(ownProps.path);
+var mapStateToProps = function mapStateToProps(state, ownProps) {
   return {
-    setData: (path, data) => dispatch(setData(path, data))
+    data: getIn(state['kate-form'], ownProps.path)
   };
 };
 
-const ConnectedKateForm = (0, _reactRedux.connect)(mapStateToProps, mapDispathToProps)(KateFormWithContext);
+var mapDispathToProps = function mapDispathToProps(dispatch, ownProps) {
+  var _setData = (0, _actions.getSetData)(ownProps.path);
+  return {
+    setData: function setData(path, data) {
+      return dispatch(_setData(path, data));
+    }
+  };
+};
+
+var ConnectedKateForm = (0, _reactRedux.connect)(mapStateToProps, mapDispathToProps)(KateFormWithContext);
 exports.default = ConnectedKateForm;
