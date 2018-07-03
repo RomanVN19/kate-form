@@ -1,11 +1,6 @@
 import { SET_DATA } from './actions';
 import { getIn } from './KateForm';
-
-const setFieldValue = (data, field, value) => {
-  const newData = Array.isArray(data) ? [...data] : { ...data };
-  newData[field] = value;
-  return newData;
-};
+import { setFieldValue } from './index';
 
 // eslint-disable-next-line import/prefer-default-export
 export const reducer = (state = {}, action) => {

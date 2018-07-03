@@ -56,7 +56,7 @@ const createContent = (getFormData, setFormData, sub = 'elements', prefix = '') 
 
 const getValues = (data, sub = 'elements', result = {}) => {
   data.forEach((element) => {
-    if (element.value) {
+    if (Object.prototype.hasOwnProperty.call(element, 'value')) {
       result[element.id] = element.value; // eslint-disable-line no-param-reassign
     }
     if (element[sub]) {
@@ -64,6 +64,35 @@ const getValues = (data, sub = 'elements', result = {}) => {
     }
   });
   return result;
+};
+
+const setFieldValue = (data, field, value) => {
+  const newData = Array.isArray(data) ? [...data] : { ...data };
+  newData[field] = value;
+  return newData;
+};
+
+const setIn = (data, path, value) => {
+  const pathArray = path.split('.');
+
+  if (pathArray.length < 2) {
+    // can't make new object
+    return;
+  }
+  const field = pathArray.pop();
+  const subElementField = pathArray.pop();
+  const parent = getIn(data, pathArray);
+  parent[subElementField] = setFieldValue(parent[subElementField], field, value);
+};
+
+const setValues = (values, data, setData, sub = 'elements') => {
+  Object.keys(values).forEach((key) => {
+    const path = findPath(data, key, sub);
+    if (path) {
+      setIn(data, `${path}.value`, values[key]);
+    }
+  });
+  setData('', data);
 };
 
 export {
@@ -74,6 +103,9 @@ export {
   getSetData,
   setConnectors,
   getIn,
+  setIn,
+  setValues,
+  setFieldValue,
   createContent,
   KateFormProvider,
   getValues,

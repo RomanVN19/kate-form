@@ -40,6 +40,14 @@ var withKateForm = function withKateForm(FormComponent, kateFormPath) {
         return _this.props.data;
       };
 
+      _this.getValues = function () {
+        return (0, _index.getValues)(_this.props.data, subElementsPath);
+      };
+
+      _this.setValues = function (values) {
+        return (0, _index.setValues)(values, _this.props.data, _this.props.setData, subElementsPath);
+      };
+
       _this.init = function (elements) {
         return _this.props.setData('', elements);
       };
@@ -55,7 +63,9 @@ var withKateForm = function withKateForm(FormComponent, kateFormPath) {
       value: function render() {
         return _react2.default.createElement(FormComponent, _extends({}, this.props, {
           kateFormContent: this.content,
-          kateFormInit: this.init
+          kateFormInit: this.init,
+          getValues: this.getValues,
+          setValues: this.setValues
         }));
       }
     }]);
