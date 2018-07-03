@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.withKateForm = exports.getValues = exports.KateFormProvider = exports.createContent = exports.setValues = exports.setIn = exports.getIn = exports.setConnectors = exports.getSetData = exports.reducer = exports.Elements = exports.connectors = exports.KateForm = undefined;
+exports.withKateForm = exports.getValues = exports.KateFormProvider = exports.createContent = exports.setFieldValue = exports.setValues = exports.setIn = exports.getIn = exports.setConnectors = exports.getSetData = exports.reducer = exports.Elements = exports.connectors = exports.KateForm = undefined;
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
@@ -139,6 +139,7 @@ exports.setConnectors = _actions.setConnectors;
 exports.getIn = _KateForm.getIn;
 exports.setIn = setIn;
 exports.setValues = setValues;
+exports.setFieldValue = setFieldValue;
 exports.createContent = createContent;
 exports.KateFormProvider = _context.KateFormProvider;
 exports.getValues = getValues;

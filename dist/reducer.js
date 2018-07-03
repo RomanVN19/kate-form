@@ -11,15 +11,9 @@ var _actions = require('./actions');
 
 var _KateForm = require('./KateForm');
 
+var _index = require('./index');
+
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
-var setFieldValue = function setFieldValue(data, field, value) {
-  var newData = Array.isArray(data) ? [].concat(_toConsumableArray(data)) : _extends({}, data);
-  newData[field] = value;
-  return newData;
-};
 
 // eslint-disable-next-line import/prefer-default-export
 var reducer = exports.reducer = function reducer() {
@@ -39,12 +33,12 @@ var reducer = exports.reducer = function reducer() {
         if (pathArray.length === 1) {
           element = data;
         } else if (pathArray.length === 2) {
-          element = setFieldValue(element, pathArray[1], data);
+          element = (0, _index.setFieldValue)(element, pathArray[1], data);
         } else {
           var field = pathArray.pop();
           var subElementField = pathArray.pop();
           var parent = (0, _KateForm.getIn)(state, pathArray);
-          parent[subElementField] = setFieldValue(parent[subElementField], field, data);
+          parent[subElementField] = (0, _index.setFieldValue)(parent[subElementField], field, data);
         }
 
         return _extends({}, state, _defineProperty({}, firstElement, element));
