@@ -55,14 +55,19 @@ const createContent = (getFormData, setFormData, sub = 'elements', prefix = '') 
 };
 
 const getValues = (data, sub = 'elements', result = {}) => {
-  data.forEach((element) => {
+  const getValue = (element) => {
     if (Object.prototype.hasOwnProperty.call(element, 'value')) {
       result[element.id] = element.value; // eslint-disable-line no-param-reassign
     }
     if (element[sub]) {
       getValues(element[sub], sub, result);
     }
-  });
+  };
+  if (Array.isArray(data)) {
+    data.forEach(getValue);
+  } else {
+    getValue(data);
+  }
   return result;
 };
 

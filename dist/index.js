@@ -88,14 +88,19 @@ var getValues = function getValues(data) {
   var sub = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'elements';
   var result = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 
-  data.forEach(function (element) {
+  var getValue = function getValue(element) {
     if (Object.prototype.hasOwnProperty.call(element, 'value')) {
       result[element.id] = element.value; // eslint-disable-line no-param-reassign
     }
     if (element[sub]) {
       getValues(element[sub], sub, result);
     }
-  });
+  };
+  if (Array.isArray(data)) {
+    data.forEach(getValue);
+  } else {
+    getValue(data);
+  }
   return result;
 };
 
