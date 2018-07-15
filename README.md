@@ -324,6 +324,26 @@ class FormLayout extends Component {
 }
 
 ```
+### Жизненный цикл
+
+Работать с объектом `content` для доступа к элементам формы
+прямо в конструкторе не получится: метод `kateFormInit` устанавливает
+элементы формы условно в следующем цикле событий javascript (см детали реализации `redux`).
+Отследить момент инициализации данных, а следовательно
+момент начала возможной работы с `content` можно с помощью
+метода `react` компонента `componentDidUpdate`.
+В общем случае (при изменении `state` родительских компонентов)
+этот метод может быть вызван не один раз, поэтому логично дополнить
+компонент функцией `shouldComponentUpdate`.
+
+````
+shouldComponentUpdate(nextProps) {
+  return this.props.data !== nextProps.data;
+}
+componentDidUpdate() {
+  // do some after init stuff
+}
+````
 
 ### Коннекторы
 

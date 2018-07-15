@@ -16,7 +16,7 @@ const createElement = (getContent, path, setFormData, prefix = '') => new Proxy(
 });
 
 const findPath = (data, id, sub) => {
-  if (data.id === id) return '';
+  if (!data || data.id === id) return '';
   if (data[sub]) {
     const subPath = findPath(data[sub], id, sub);
     if (subPath) return `${sub}.${subPath}`;
@@ -56,7 +56,7 @@ const createContent = (getFormData, setFormData, sub = 'elements', prefix = '') 
 
 const getValues = (data, sub = 'elements', result = {}) => {
   const getValue = (element) => {
-    if (Object.prototype.hasOwnProperty.call(element, 'value')) {
+    if (element.id && Object.prototype.hasOwnProperty.call(element, 'value')) {
       result[element.id] = element.value; // eslint-disable-line no-param-reassign
     }
     if (element[sub]) {
