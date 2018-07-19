@@ -41,7 +41,7 @@ var createElement = function createElement(getContent, path, setFormData) {
 };
 
 var findPath = function findPath(data, id, sub) {
-  if (data.id === id) return '';
+  if (!data || data.id === id) return '';
   if (data[sub]) {
     var subPath = findPath(data[sub], id, sub);
     if (subPath) return sub + '.' + subPath;
@@ -89,7 +89,7 @@ var getValues = function getValues(data) {
   var result = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 
   var getValue = function getValue(element) {
-    if (Object.prototype.hasOwnProperty.call(element, 'value')) {
+    if (element.id && Object.prototype.hasOwnProperty.call(element, 'value')) {
       result[element.id] = element.value; // eslint-disable-line no-param-reassign
     }
     if (element[sub]) {
