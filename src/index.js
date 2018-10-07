@@ -10,7 +10,7 @@ const createElement = (getContent, path, setFormData, prefix = '') => new Proxy(
     return getIn(getContent(), path)[prop];
   },
   set(target, prop, value) {
-    setFormData(`${prefix}${prefix ? '.' : ''}${path}.${prop}`, value);
+    setFormData(`${prefix}${prefix ? '.' : ''}${path ? `${path}.` : ''}${prop}`, value);
     return true;
   },
 });
@@ -39,7 +39,7 @@ const createContent = (getFormData, setFormData, sub = 'elements', prefix = '') 
     get(target, prop) {
       const content = getContent();
       const path = findPath(content, prop, sub);
-      if (path) {
+      if (path !== undefined) {
         if (!elementsProxies[path]) {
           elementsProxies[path] = createElement(getContent, path, setFormData, prefix);
         }
