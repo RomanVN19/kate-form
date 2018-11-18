@@ -1,3 +1,4 @@
+/* eslint-disable arrow-body-style */
 import React from 'react';
 import KateForm from './KateForm';
 
@@ -15,7 +16,7 @@ const label = ({ title, setData, ...props }) => (
   <span {...props}>{title}</span>
 );
 
-const subform = ({ path, ...props }) => {
+const subform = ({ path }) => {
   return (
     <KateForm
       path={`${path}.data`}
@@ -27,11 +28,12 @@ const button = ({ title, setData, ...props }) => (
   <button {...props}>{title}</button>
 );
 
-const group = ({ path, elements, layout, ...props }) => {
+const group = ({ path, elements, layout }) => {
   return (
     <div style={layout === 'horizontal' ? { display: 'flex' } : null}>
       {
         elements.map((item, index) => (
+          // eslint-disable-next-line react/no-array-index-key
           <div key={index}>
             <KateForm path={`${path}.elements.${index}`} />
           </div>

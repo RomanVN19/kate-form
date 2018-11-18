@@ -19,10 +19,12 @@ const KateForm = (props) => {
     data, connectors,
     path, setData,
     logRerender,
+    t,
   } = props;
   if (logRerender) console.log('render ', path, data); // eslint-disable-line no-console
 
   if (!data) {
+    // eslint-disable-next-line no-console
     console.error(`[kate-form] Error connecting element: data on path ${path} is null`);
     return null;
   }
@@ -49,6 +51,7 @@ const KateForm = (props) => {
     <ElementComponent
       setData={setData}
       path={path}
+      t={t}
       {...elementProps}
     />
   );
@@ -57,7 +60,12 @@ const KateForm = (props) => {
 const KateFormWithContext = props => (
   <Consumer>
     {context => (
-      <KateForm connectors={context.connectors} logRerender={context.logRerender} {...props} />
+      <KateForm
+        connectors={context.connectors}
+        logRerender={context.logRerender}
+        t={context.t || (value => value)}
+        {...props}
+      />
     )}
   </Consumer>
 );
