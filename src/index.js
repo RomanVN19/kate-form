@@ -1,7 +1,7 @@
 import KateForm, { getIn } from './KateForm';
-import { connectors, Elements } from './connectors';
+import { components, Elements } from './components';
 import { reducer } from './reducer';
-import { getSetData, setConnectors } from './actions';
+import { getSetData, setcomponents } from './actions';
 import { KateFormProvider } from './context';
 import withKateForm from './withKateForm';
 
@@ -102,11 +102,11 @@ const setValues = (values, data, setData, sub = 'elements') => {
 
 export {
   KateForm,
-  connectors,
+  components,
   Elements,
   reducer,
   getSetData,
-  setConnectors,
+  setcomponents,
   getIn,
   setIn,
   setValues,

@@ -16,7 +16,7 @@ export const getIn = (obj, path) => {
 
 const KateForm = (props) => {
   const {
-    data, connectors,
+    data, components,
     path, setData,
     logRerender,
     t,
@@ -45,8 +45,8 @@ const KateForm = (props) => {
   }
   // render element
   const { type, ...elementProps } = data;
-  if (!data.type || !connectors[data.type] || data.hidden) return null;
-  const ElementComponent = connectors[data.type];
+  if (!data.type || !components[data.type] || data.hidden) return null;
+  const ElementComponent = components[data.type];
   return (
     <ElementComponent
       setData={setData}
@@ -61,7 +61,7 @@ const KateFormWithContext = props => (
   <Consumer>
     {context => (
       <KateForm
-        connectors={context.connectors}
+        components={context.components}
         logRerender={context.logRerender}
         t={context.t || (value => value)}
         {...props}

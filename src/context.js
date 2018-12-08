@@ -1,14 +1,14 @@
 import React from 'react';
-import { connectors as defaultConnectors } from './connectors';
+import { components as defaultcomponents } from './components';
 
 const { Provider, Consumer } = React.createContext({
-  connectors: defaultConnectors,
+  components: defaultcomponents,
   logRerender: false,
   t: value => value,
 });
 
-const KateFormProvider = ({ connectors, logRerender, t, children }) => (
-  <Provider value={{ connectors, logRerender, t }}>
+const KateFormProvider = ({ components, logRerender, t, children }) => (
+  <Provider value={{ components, logRerender, t }}>
     {children}
   </Provider>
 );

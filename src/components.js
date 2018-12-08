@@ -43,7 +43,7 @@ const group = ({ path, elements, layout }) => {
   );
 };
 
-const connectors = {
+const components = {
   input,
   button,
   subform,
@@ -60,6 +60,6 @@ const Elements = {
 };
 
 export {
-  connectors,
+  components,
   Elements,
 };
