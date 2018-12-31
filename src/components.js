@@ -12,8 +12,8 @@ const input = ({ onChange, setData, inputType, value, ...props }) => {
   );
 };
 
-const label = ({ title, setData, ...props }) => (
-  <span {...props}>{title}</span>
+const label = ({ title, setData, t, ...props }) => (
+  <span {...props}>{t(title)}</span>
 );
 
 const subform = ({ path }) => {
@@ -43,20 +43,21 @@ const group = ({ path, elements, layout }) => {
   );
 };
 
-const components = {
-  input,
-  button,
-  subform,
-  label,
-  group,
-};
 
 const Elements = {
-  INPUT: 'input',
-  BUTTON: 'button',
-  FORM: 'subform',
-  LABEL: 'label',
-  GROUP: 'group',
+  INPUT: Symbol('input'),
+  BUTTON: Symbol('button'),
+  FORM: Symbol('subform'),
+  LABEL: Symbol('label'),
+  GROUP: Symbol('group'),
+};
+
+const components = {
+  [Elements.INPUT]: input,
+  [Elements.BUTTON]: button,
+  [Elements.FORM]: subform,
+  [Elements.LABEL]: label,
+  [Elements.GROUP]: group,
 };
 
 export {

@@ -22,6 +22,7 @@ const withKateForm = (FormComponent, kateFormPath, subElementsPath = 'elements',
           kateFormInit={this.init}
           getValues={this.getValues}
           setValues={this.setValues}
+          kateFormPath={kateFormPath}
         />
       );
     }
