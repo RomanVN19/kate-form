@@ -1,19 +1,28 @@
+import ProxyPolyfill from 'proxy-polyfill/src/proxy';
 import KateForm, { getIn } from './KateForm';
 import { components, Elements } from './components';
 import { reducer } from './reducer';
-import { getSetData, setcomponents } from './actions';
+import { getSetData } from './actions';
 import { KateFormProvider } from './context';
 import withKateForm from './withKateForm';
 
-const createElement = (getContent, path, setFormData, prefix = '') => new Proxy({}, {
-  get(target, prop) {
-    return getIn(getContent(), path)[prop];
-  },
-  set(target, prop, value) {
-    setFormData(`${prefix}${prefix ? '.' : ''}${path ? `${path}.` : ''}${prop}`, value);
-    return true;
-  },
-});
+const ProxyP = ProxyPolyfill();
+
+const createElement = (getContent, path, setFormData, prefix = '', obj = {}) => {
+  const proxyHandlers = {
+    get(target, prop) {
+      return getIn(getContent(), path)[prop];
+    },
+    set(target, prop, value) {
+      setFormData(`${prefix}${prefix ? '.' : ''}${path ? `${path}.` : ''}${prop}`, value);
+      return true;
+    },
+  };
+  if (window.Proxy) {
+    return new Proxy({}, proxyHandlers);
+  }
+  return new ProxyP(obj, proxyHandlers);
+};
 
 const findPath = (data, id, sub) => {
   if (!data || data.id === id) return '';
@@ -32,16 +41,21 @@ const findPath = (data, id, sub) => {
   return undefined;
 };
 
-const createContent = (getFormData, setFormData, sub = 'elements', prefix = '') => {
+const createContent = (getFormData, setFormData, sub = 'elements', prefix = '', obj = {}) => {
   const getContent = () => (prefix ? getIn(getFormData(), prefix) : getFormData());
   const elementsProxies = {};
-  return new Proxy({}, {
+  const proxyHandlers = {
     get(target, prop) {
       const content = getContent();
       const path = findPath(content, prop, sub);
+
       if (path !== undefined) {
         if (!elementsProxies[path]) {
-          elementsProxies[path] = createElement(getContent, path, setFormData, prefix);
+          if (window.Proxy) {
+            elementsProxies[path] = createElement(getContent, path, setFormData, prefix);
+          } else {
+            elementsProxies[path] = createElement(getContent, path, setFormData, prefix, obj[prop]);
+          }
         }
         return elementsProxies[path];
       }
@@ -51,7 +65,11 @@ const createContent = (getFormData, setFormData, sub = 'elements', prefix = '') 
     set() {
       return true;
     },
-  });
+  };
+  if (window.Proxy) {
+    return new Proxy({}, proxyHandlers);
+  }
+  return new ProxyP(obj, proxyHandlers);
 };
 
 const getValues = (data, sub = 'elements', result = {}) => {
@@ -106,7 +124,6 @@ export {
   Elements,
   reducer,
   getSetData,
-  setcomponents,
   getIn,
   setIn,
   setValues,
