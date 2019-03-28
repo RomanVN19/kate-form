@@ -19,7 +19,9 @@ export const reducer = (state = {}, action) => {
         const field = pathArray.pop();
         const subElementField = pathArray.pop();
         const parent = getIn(state, pathArray);
-        parent[subElementField] = setFieldValue(parent[subElementField], field, data);
+        if (parent) {
+          parent[subElementField] = setFieldValue(parent[subElementField], field, data);
+        }
       }
 
       return { ...state, [firstElement]: element };

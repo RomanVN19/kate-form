@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
 
 import { getSetData } from './actions';
 import { Consumer } from './context';
 
 export const getIn = (obj, path) => {
+  if (obj[path]) return obj[path];
   const pathArray = Array.isArray(path) ? path : path.split('.');
   if (pathArray[pathArray.length - 1] === '') pathArray.pop();
   let currentData = obj;
@@ -32,7 +33,7 @@ const KateForm = (props) => {
   if (Array.isArray(data)) {
     // render sub elements
     return (
-      <div>
+      <Fragment>
         {
           data.map((element, index) => (
             <ConnectedKateForm
@@ -40,7 +41,7 @@ const KateForm = (props) => {
               path={`${path}.${index}`}
             />))
         }
-      </div>
+      </Fragment>
     );
   }
   // render element
